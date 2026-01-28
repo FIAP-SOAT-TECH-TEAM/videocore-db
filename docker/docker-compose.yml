@@ -1,31 +1,24 @@
+name: videocore-db
 services:
-  # Banco de dados PostgreSQL
+  # Banco de dados Azure Cosmos DB
   reports-ms-db:
-    image: postgres:16-alpine
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
     container_name: videocore-reports-ms-db
-    ports:
-      - "${DB_PORT}:5432"
+    restart: unless-stopped
+    mem_limit: 3g
+    cpu_count: 2
     env_file:
       - .env
+    ports:
+      - "${DB_PORT}:${DB_PORT}" # Data Explorer UI
+      - "10251-10255:10251-10255"
     volumes:
-      - reports_ms_postgres_data:/var/lib/postgresql/data
+      - reports_ms_cosmosdb_data:/tmp/cosmos/appdata # https://stackoverflow.com/questions/72466963/cosmosdb-emulator-linux-image-mount-volume
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
-      interval: 5s
+      test: ["CMD-SHELL", "curl -k -f https://localhost:${DB_PORT}/_explorer/emulator.pem"]
+      interval: 3s
       timeout: 5s
-      retries: 10
-      start_period: 30s
-    command: >
-      -c shared_buffers=256MB
-      -c max_connections=200
-      -c effective_cache_size=512MB
-      -c maintenance_work_mem=64MB
-      -c random_page_cost=1.1
-      -c effective_io_concurrency=200
-      -c work_mem=4MB
-      -c min_wal_size=1GB
-      -c max_wal_size=4GB
-      -c wal_level=logical
+      retries: 60
     networks:
       - videocore-network
 
@@ -34,4 +27,4 @@ networks:
     driver: bridge
 
 volumes:
-  reports_ms_postgres_data:
+  reports_ms_cosmosdb_data:
