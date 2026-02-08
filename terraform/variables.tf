@@ -5,66 +5,24 @@
   }
 
 # remote states
-  variable "foodcore-backend-resource-group" {
+  variable "videocore-backend-resource-group" {
     type        = string
     description = "Nome do resource group onde o backend está armazenado"
   }
 
-  variable "foodcore-backend-storage-account" {
+  variable "videocore-backend-storage-account" {
     type        = string
     description = "Nome da conta de armazenamento onde o backend está armazenado"
   }
 
-  variable "foodcore-backend-container" {
+  variable "videocore-backend-container" {
     type        = string
     description = "Nome do contêiner onde o backend está armazenado"
   }
 
-  variable "foodcore-backend-infra-key" {
+  variable "videocore-backend-infra-key" {
     type        = string
-    description = "Chave do arquivo tfstate do foodcore-infra"
-  }
-
-# PostgreSQL Flexible Server
-
-  variable "pgsql_flex_db_charset" {
-    type        = string
-    description = "Charset do banco de dados"
-    default     = "UTF8"
-  }
-
-  variable "pgsql_flex_db_collation" {
-    type        = string
-    description = "Collation do banco de dados"
-    default     = "en_US.utf8"
-  }
-
-  variable "pgsql_flex_db_version" {
-    type        = string
-    description = "Versão do banco de dados"
-    default     = "16"
-  }
-
-  variable "pgsql_flex_administrator_login" {
-    type        = string
-    description = "Login do administrador do banco de dados"
-  }
-
-  variable "pgsql_flex_administrator_password" {
-    type        = string
-    description = "Senha do administrador do banco de dados"
-  }
-
-  variable "pgsql_flex_db_storage_mb" {
-    type        = number
-    description = "Tamanho do armazenamento do banco de dados em MB"
-    default     = 32768
-  }
-
-  variable "pgsql_flex_db_sku_name" {
-    type        = string
-    description = "SKU do banco de dados"
-    default     = "B_Standard_B1ms"
+    description = "Chave do arquivo tfstate do videocore-infra"
   }
 
 # Cosmos DB
@@ -111,11 +69,5 @@
     description = "Prefixo de endereço da subrede para Azure Cosmos DB"
     type        = list(string)
     default     = ["10.0.7.0/24"]
-  }
-  
-  variable "pgsql_flex_subnet_prefix" {
-    description = "Prefixo de endereço da subrede para PostgreSQL Flexible Server"
-    type        = list(string)
-    default     = ["10.0.8.0/24"]
   }
   

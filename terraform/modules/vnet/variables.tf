@@ -35,10 +35,6 @@
     description = "ID da rede virtual"
     type        = string
   }
-  variable "pgsql_flex_subnet_prefix" {
-    description = "Prefixo de endereço da subrede para PostgreSQL Flexible Server"
-    type        = list(string)
-  }
   variable "cosmosdb_subnet_prefix" {
     description = "Prefixo de endereço da subrede para Azure Cosmos DB"
     type        = list(string)
