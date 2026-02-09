@@ -1,0 +1,30 @@
+name: videocore-db
+services:
+  # Banco de dados Azure Cosmos DB
+  reports-ms-db:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+    container_name: videocore-reports-ms-db
+    restart: unless-stopped
+    mem_limit: 3g
+    cpu_count: 2
+    env_file:
+      - .env
+    ports:
+      - "${DB_PORT}:${DB_PORT}" # Data Explorer UI
+      - "10251-10255:10251-10255"
+    volumes:
+      - reports_ms_cosmosdb_data:/tmp/cosmos/appdata # https://stackoverflow.com/questions/72466963/cosmosdb-emulator-linux-image-mount-volume
+    healthcheck:
+      test: ["CMD-SHELL", "curl -k -f https://localhost:${DB_PORT}/_explorer/emulator.pem"]
+      interval: 3s
+      timeout: 5s
+      retries: 60
+    networks:
+      - videocore-network
+
+networks:
+  videocore-network:
+    driver: bridge
+
+volumes:
+  reports_ms_cosmosdb_data:

@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# Script centralizador para o projeto Video Core
+# Uso: ./video [comando] [opções]
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPTS_DIR="$SCRIPT_DIR/scripts"
+
+# Função de ajuda
+show_help() {
+  echo "Video Core (DB) - CLI"
+  echo
+  echo "Uso: ./video [comando] [opções]"
+  echo
+  echo "Comandos disponíveis:"
+  echo "  start:infra    Inicia apenas a infraestrutura (banco)"
+  echo "  stop:infra     Para apenas a infraestrutura"
+  echo "  restart:all    Reinicia todos os serviços da infraestrutura"
+  echo "  help           Exibe esta ajuda"
+  echo
+  echo "Opções:"
+  echo "  --force, -f    Força execução sem confirmação"
+  echo
+  echo "Exemplo:"
+  echo "  ./video start:infra --force"
+}
+
+# Verifica se Docker está ativo
+check_docker() {
+  docker info &>/dev/null
+  return $?
+}
+
+if ! check_docker; then
+  echo "ERRO: O Docker não está rodando."
+  echo "Inicie o Docker Desktop e tente novamente."
+  exit 1
+fi
+
+# Nenhum argumento → ajuda
+if [ $# -eq 0 ]; then
+  show_help
+  exit 1
+fi
+
+# Processar opções
+FORCE_FLAG=""
+COMMAND=""
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --force|-f)
+      FORCE_FLAG="--force"
+      shift
+      ;;
+    *)
+      COMMAND="$1"
+      shift
+      ;;
+  esac
+done
+
+# Executar comandos
+case "$COMMAND" in
+  start:infra)
+    echo "Iniciando a infraestrutura..."
+    "$SCRIPTS_DIR/infra-up.sh" $FORCE_FLAG
+    # Verificar se a rede videocore-network existe, se não, criar
+    if ! docker network ls | grep -q videocore-network; then
+      echo "Criando rede compartilhada videocore-network..."
+      docker network create videocore-network
+    fi
+    ;;
+
+  stop:infra)
+    echo "Parando a infraestrutura..."
+    "$SCRIPTS_DIR/infra-down.sh"
+    ;;
+
+  restart:all)
+    echo "Reiniciando a infraestrutura..."
+    "$SCRIPTS_DIR/infra-restart.sh" $FORCE_FLAG
+    ;;
+
+  help)
+    show_help
+    ;;
+
+  *)
+    echo "ERRO: Comando desconhecido '$COMMAND'"
+    echo "Use './video help' para ver os comandos disponíveis."
+    exit 1
+    ;;
+esac
