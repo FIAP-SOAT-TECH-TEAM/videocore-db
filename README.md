@@ -16,6 +16,8 @@ Provisionamento e gerenciamento de banco de dados Azure Cosmos DB para o ecossis
   <a href="#contribuicao">Contribuição</a>
 </div><br>
 
+> 📽️ Vídeo de demonstração da arquitetura: [https://youtu.be/k3XbPRxmjCw](https://youtu.be/k3XbPRxmjCw)<br>
+
 ---
 
 <h2 id="visao-geral">📋 Visão Geral</h2>
@@ -141,6 +143,67 @@ cp docker/env-example docker/.env
 ```
 
 > ⚠️ O emulador requer no mínimo **3 GB de RAM** e **2 CPUs** disponíveis.
+
+---
+
+<h2 id="deploy">⚙️ Fluxo de Deploy</h2>
+
+<details>
+<summary>Expandir para mais detalhes</summary>
+
+### Pipeline
+
+1. **Pull Request** → CI: Terraform Format, Validate e Plan
+2. **Revisão e Aprovação** → Mínimo 1 aprovação de CODEOWNER
+3. **Merge para Main** → CD: Terraform Apply
+
+### Autenticação
+
+- **OIDC**: Token emitido pelo GitHub
+- **Azure AD Federation**: Confia no emissor GitHub
+- **Service Principal**: Autentica sem secret
+
+### Ordem de Provisionamento
+
+```
+1. videocore-infra          (AKS, VNET, APIM)
+2. videocore-db             (Cosmos DB - este repositório)
+3. videocore-auth           (Azure Function Authorizer)
+4. videocore-reports        (Microsserviço de relatórios)
+5. videocore-worker         (Microsserviço de processamento)
+6. videocore-notification   (Microsserviço de notificações)
+7. videocore-frontend       (Interface web)
+```
+
+### Proteções
+
+- Branch `main` protegida
+- Nenhum push direto permitido
+- Todos os checks devem passar
+
+</details>
+
+---
+
+<h2 id="contribuicao">🤝 Contribuição</h2>
+
+### Fluxo de Contribuição
+
+1. Crie uma branch a partir de `main`
+2. Implemente suas alterações
+3. Abra um Pull Request
+4. Aguarde aprovação de um CODEOWNER
+
+### Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).
+
+---
+
+<div align="center">
+  <strong>FIAP - Pós-graduação em Arquitetura de Software</strong><br>
+  Tech Challenge 4
+</div>
 
 ---
 
