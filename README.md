@@ -194,19 +194,6 @@ cp docker/env-example docker/.env
 3. Abra um Pull Request
 4. Aguarde aprovação de um CODEOWNER
 
-### Licença
-
-Este projeto está licenciado sob a [MIT License](LICENSE).
-
----
-
-<div align="center">
-  <strong>FIAP - Pós-graduação em Arquitetura de Software</strong><br>
-  Tech Challenge 4
-</div>
-
----
-
 <h2 id="deploy">⚙️ Fluxo de Deploy</h2>
 
 <details>
