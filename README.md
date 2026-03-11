@@ -194,53 +194,6 @@ cp docker/env-example docker/.env
 3. Abra um Pull Request
 4. Aguarde aprovação de um CODEOWNER
 
-<h2 id="deploy">⚙️ Fluxo de Deploy</h2>
-
-<details>
-<summary>Expandir para mais detalhes</summary>
-
-### Pipeline
-
-1. **Pull Request** → CI: Terraform Init / Plan
-2. **Revisão e Aprovação** → Mínimo 1 aprovação de CODEOWNER
-3. **Merge para Main** → CD: Terraform Apply
-
-### Autenticação
-
-- **OIDC**: Token emitido pelo GitHub
-- **Azure AD Federation**: Confia no emissor GitHub
-- **Service Principal**: Autentica sem secret
-
-### Ordem de Provisionamento
-
-```
-1. videocore-infra          (AKS, VNET, APIM, Key Vault)
-2. videocore-db             (Cosmos DB - este repositório)
-3. videocore-observability  (Jaeger, Prometheus, Grafana)
-4. videocore-reports        (Microsserviço de relatórios)
-5. videocore-worker         (Microsserviço de processamento)
-6. videocore-frontend       (Interface web)
-```
-
-### Proteções
-
-- Branch `main` protegida
-- Nenhum push direto permitido
-- Todos os checks devem passar
-
-</details>
-
----
-
-<h2 id="contribuicao">🤝 Contribuição</h2>
-
-### Fluxo de Contribuição
-
-1. Crie uma branch a partir de `main`
-2. Implemente suas alterações
-3. Abra um Pull Request
-4. Aguarde aprovação de um CODEOWNER
-
 ### Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
@@ -249,5 +202,5 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 <div align="center">
   <strong>FIAP - Pós-graduação em Arquitetura de Software</strong><br>
-  Tech Challenge
+  Tech Challenge 4
 </div>
