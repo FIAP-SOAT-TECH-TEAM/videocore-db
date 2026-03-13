@@ -22,7 +22,7 @@ Provisionamento e gerenciamento de banco de dados Azure Cosmos DB para o ecossis
   <a href="#contribuicao">Contribuição</a>
 </div><br>
 
-> 📽️ Vídeo de demonstração da arquitetura: [https://youtu.be/k3XbPRxmjCw](https://youtu.be/k3XbPRxmjCw)<br>
+> 📽️ Vídeo de demonstração da arquitetura: [https://www.youtube.com/watch?v=axKA66ruEpM](https://www.youtube.com/watch?v=axKA66ruEpM)<br>
 
 ---
 
